@@ -1,0 +1,44 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode partition(ListNode head, int x) {
+       // Check if the linked list is empty or has only one node
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        // Initialize pointers for the two partitions
+        ListNode lessThanX = new ListNode(0);
+        ListNode lessThanXHead = lessThanX;
+        ListNode greaterThanOrEqualX = new ListNode(0);
+        ListNode greaterThanOrEqualXHead = greaterThanOrEqualX;
+
+        // Traverse the original linked list
+        while (head != null) {
+            if (head.val < x) {
+                // Add nodes with values less than x to the "lessThanX" partition
+                lessThanX.next = new ListNode(head.val);
+                lessThanX = lessThanX.next;
+            } else {
+                // Add nodes with values greater than or equal to x to the "greaterThanOrEqualX" partition
+                greaterThanOrEqualX.next = new ListNode(head.val);
+                greaterThanOrEqualX = greaterThanOrEqualX.next;
+            }
+            head = head.next;
+        }
+
+        // Connect the two partitions
+        lessThanX.next = greaterThanOrEqualXHead.next;
+
+        // Return the head of the new partitioned list
+        return lessThanXHead.next;
+    }
+}
